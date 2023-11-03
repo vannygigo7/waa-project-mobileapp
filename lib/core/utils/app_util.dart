@@ -29,9 +29,9 @@ class AppUtil {
     );
   }
 
-  /// format DateTime [dt] to string time ago
-  static String formatTimeAgo(DateTime dt) {
-    return timeago.format(dt, allowFromNow: true, locale: 'en_short');
+  /// format DateTime [dateTime] to string time ago
+  static String formatTimeAgo(DateTime dateTime) {
+    return timeago.format(dateTime, allowFromNow: true, locale: 'en_short');
   }
 
   /// show custom confirm dialog with [message]
@@ -71,7 +71,7 @@ class AppUtil {
     return res;
   }
 
-  static formatDateTime(datetime, {type = 0}) {
+  static String formatDateTime(datetime, {type = 0}) {
     if (['', null, 0].contains(datetime)) return "N/A";
     String formattedDate =
         DateFormat('dd/MM/yyyy hh:mm a').format(DateTime.parse(datetime));
@@ -86,5 +86,9 @@ class AppUtil {
       formattedDate = DateFormat("hh:mm a").format(DateTime.parse(datetime));
     }
     return formattedDate;
+  }
+
+  static bool compareDateTimes(DateTime dateTime1, DateTime dateTime2) {
+    return dateTime1.isBefore(dateTime2);
   }
 }

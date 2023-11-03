@@ -33,17 +33,17 @@ class CourseDetailBottomBlock extends StatelessWidget {
           const Expanded(
             child: CustomTextBox(
               prefix: Icon(Icons.attach_money),
-              hint: "Please enter your bid amount",
+              hint: "Enter your bid amount",
             ),
           ),
           const SizedBox(
             width: 10,
           ),
           CustomButton(
-            width: 100,
+            width: 110,
             height: 40,
             radius: 10,
-            title: "Bid",
+            title: "Place Bid",
             onTap: () {},
           ),
         ],

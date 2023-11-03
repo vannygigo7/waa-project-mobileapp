@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({required this.title, this.actions, super.key});
-  final String title;
+  final Widget title;
   final List<Widget>? actions;
 
   @override
@@ -11,10 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       iconTheme: const IconThemeData(color: AppColor.darker),
       backgroundColor: AppColor.appBarColor,
-      title: Text(
-        title,
-        style: const TextStyle(color: AppColor.textColor),
-      ),
+      title: title,
       actions: actions,
     );
   }

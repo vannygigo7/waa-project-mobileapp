@@ -12,7 +12,7 @@ class HomeAuctionItem extends StatelessWidget {
       required this.product,
       this.onTap,
       this.width = 200,
-      this.height = 290})
+      this.height = 320})
       : super(key: key);
   final ProductModel product;
   final double width;
@@ -117,32 +117,53 @@ class HomeAuctionItem extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildAttribute(Icons.change_circle_outlined, AppColor.labelColor,
-            "${AppConstant.currency}${product.auction.highestBid}"),
-        _buildAttribute(Icons.schedule_rounded, AppColor.labelColor,
+        _buildCurrentPrice(),
+        _bidDueDate(Icons.schedule_rounded, AppColor.white,
             AppUtil.formatDateTime(product.auction.bidDueDateTime)),
       ],
     );
   }
 
-  Widget _buildAttribute(IconData icon, Color color, String info) {
-    return Row(
+  Widget _buildCurrentPrice() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          icon,
-          size: 18,
-          color: color,
-        ),
-        const SizedBox(
-          width: 3,
-        ),
         Text(
-          info,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: AppColor.labelColor, fontSize: 13),
+          "${AppConstant.currency}${product.auction.highestBid}",
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        const Text(
+          "current price",
+          style: TextStyle(color: AppColor.labelColor, fontSize: 12),
+        )
       ],
+    );
+  }
+
+  Widget _bidDueDate(IconData icon, Color color, String info) {
+    return Card(
+      color: AppColor.primary,
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 18,
+              color: color,
+            ),
+            const SizedBox(
+              width: 3,
+            ),
+            Text(
+              info,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: color, fontSize: 13),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

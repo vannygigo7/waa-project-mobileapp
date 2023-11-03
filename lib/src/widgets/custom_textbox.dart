@@ -21,7 +21,6 @@ class CustomTextBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.only(bottom: 3),
       height: 40,
       decoration: BoxDecoration(
         color: AppColor.textBoxColor,

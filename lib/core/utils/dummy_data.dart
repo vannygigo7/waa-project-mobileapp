@@ -19,7 +19,64 @@ var productsData = [
       "payDate": "2023-11-06",
       "isEnd": false,
       "numberOfBidders": 0,
-      "bids": []
+      "bids": [
+        {
+          "id": 9,
+          "bidAmount": 801,
+          "bidDateTime": "2023-10-25T11:35:13.736777",
+          "customerId": 7,
+          "customer": {
+            "email": "c2@test.com",
+            "role": "USER",
+            "firstName": "Customer",
+            "lastName": "2",
+            "profileImageUrl":
+                "https://cdn-icons-png.flaticon.com/512/706/706830.png"
+          }
+        },
+        {
+          "id": 10,
+          "bidAmount": 802,
+          "bidDateTime": "2023-10-25T11:38:38.42931",
+          "customerId": 12,
+          "customer": {
+            "email": "c10@test.com",
+            "role": "USER",
+            "firstName": "Customer",
+            "lastName": "10",
+            "profileImageUrl":
+                "https://cdn-icons-png.flaticon.com/512/180/180644.png"
+          }
+        },
+        {
+          "id": 11,
+          "bidAmount": 803,
+          "bidDateTime": "2023-10-25T12:16:10.325039",
+          "customerId": 6,
+          "customer": {
+            "email": "c@test.com",
+            "role": "USER",
+            "firstName": "Customer",
+            "lastName": "1",
+            "profileImageUrl":
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE-8SS97gyHSDVd0myt_L5yWDsAAWuh6oty8jkSabdKvPmaPSZlQuwPVay91iBmjUXAik&usqp=CAU"
+          }
+        },
+        {
+          "id": 12,
+          "bidAmount": 804,
+          "bidDateTime": "2023-10-25T12:25:05.747895",
+          "customerId": 7,
+          "customer": {
+            "email": "c2@test.com",
+            "role": "USER",
+            "firstName": "Customer",
+            "lastName": "2",
+            "profileImageUrl":
+                "https://cdn-icons-png.flaticon.com/512/706/706830.png"
+          }
+        }
+      ]
     },
     "sellerId": 11
   },
