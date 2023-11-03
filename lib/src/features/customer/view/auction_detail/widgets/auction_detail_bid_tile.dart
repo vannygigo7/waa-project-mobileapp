@@ -55,7 +55,6 @@ class AuctionDetailBidTile extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    // AppUtil.formatDateTime(bid.bidDateTime),
                     AppUtil.formatTimeAgo(DateTime.parse(bid.bidDateTime)),
                     style: const TextStyle(
                         fontSize: 12, color: AppColor.labelColor),
@@ -69,7 +68,8 @@ class AuctionDetailBidTile extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 child: Text(
                   "${AppConstant.currency}${bid.bidAmount}",
-                  style: const TextStyle(color: AppColor.white),
+                  style: const TextStyle(
+                      color: AppColor.white, fontWeight: FontWeight.w600),
                 ),
               ),
             )

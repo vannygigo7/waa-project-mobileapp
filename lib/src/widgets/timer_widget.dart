@@ -4,8 +4,10 @@ import 'package:auction_app/core/utils/app_util.dart';
 import 'package:flutter/material.dart';
 
 class TimerWidget extends StatefulWidget {
-  const TimerWidget({super.key, required this.targetDateTime});
+  const TimerWidget(
+      {super.key, required this.targetDateTime, this.defaultText = ''});
   final DateTime targetDateTime;
+  final String defaultText;
 
   @override
   TimerWidgetState createState() => TimerWidgetState();
@@ -42,11 +44,18 @@ class TimerWidgetState extends State<TimerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return remainingTime == null || remainingTime!.isNegative
+    return remainingTime == null
         ? const SizedBox()
-        : Text(
-            '${remainingTime?.inDays} days, ${remainingTime!.inHours % 24} : ${remainingTime!.inMinutes % 60} : ${remainingTime!.inSeconds % 60}',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-          );
+        : remainingTime!.isNegative
+            ? Text(
+                widget.defaultText,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+              )
+            : Text(
+                '${remainingTime?.inDays} days, ${remainingTime!.inHours % 24} : ${remainingTime!.inMinutes % 60} : ${remainingTime!.inSeconds % 60}',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+              );
   }
 }

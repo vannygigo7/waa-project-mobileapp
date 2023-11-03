@@ -15,7 +15,7 @@ class AuctionDetailBanner extends StatelessWidget {
 
   Widget _buildAuctionBanner() {
     return Card(
-      color: AppColor.primary,
+      color: product.auction.isEnd ? AppColor.labelColor : AppColor.primary,
       child: Padding(
         padding: const EdgeInsets.all(13.0),
         child: Row(

@@ -1,12 +1,13 @@
 import 'package:auction_app/src/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
-class HomeAppbar extends StatelessWidget {
-  const HomeAppbar({super.key});
+class CustomSliverAppbar extends StatelessWidget {
+  const CustomSliverAppbar({super.key, required this.title});
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
@@ -14,8 +15,8 @@ class HomeAppbar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Auctions",
-                style: TextStyle(
+                title,
+                style: const TextStyle(
                   color: AppColor.textColor,
                   fontSize: 24,
                   fontWeight: FontWeight.w600,

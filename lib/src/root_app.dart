@@ -1,4 +1,6 @@
 import 'package:auction_app/src/features/customer/view/home/home_page.dart';
+import 'package:auction_app/src/features/customer/view/my_bid/my_bid_page.dart';
+import 'package:auction_app/src/features/customer/view/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auction_app/core/utils/app_constant.dart';
@@ -28,12 +30,12 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
     {
       "icon": "assets/icons/time.svg",
       "active_icon": "assets/icons/time.svg",
-      "page": const HomePage(),
+      "page": const MyBidPage(),
     },
     {
       "icon": "assets/icons/profile.svg",
       "active_icon": "assets/icons/profile.svg",
-      "page": const HomePage(),
+      "page": const ProfilePage(),
     },
   ];
 

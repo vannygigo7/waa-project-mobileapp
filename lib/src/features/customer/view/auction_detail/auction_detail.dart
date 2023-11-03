@@ -7,6 +7,7 @@ import 'package:auction_app/src/features/customer/view/auction_detail/widgets/au
 import 'package:auction_app/src/features/customer/view/auction_detail/widgets/auction_detail_image.dart';
 import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_appbar.dart';
+import 'package:auction_app/src/widgets/favorite_box.dart';
 import 'package:auction_app/src/widgets/timer_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -24,16 +25,23 @@ class AuctionDetailPage extends StatelessWidget {
       appBar: CustomAppBar(
         title: TimerWidget(
           targetDateTime: DateTime.parse(product.auction.bidDueDateTime),
+          defaultText: "Closed",
         ),
+        actions: const [
+          FavoriteBox(),
+          SizedBox(width: 15),
+        ],
       ),
       body: _buildBody(context),
-      bottomNavigationBar: CourseDetailBottomBlock(product: product),
+      bottomNavigationBar: product.auction.isEnd
+          ? null
+          : CourseDetailBottomBlock(product: product),
     );
   }
 
   Widget _buildBody(context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+      padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -97,11 +105,12 @@ class AuctionDetailPage extends StatelessWidget {
 
   handleShowBottomSheet(BuildContext context) {
     showModalBottomSheet(
+        backgroundColor: AppColor.cardColor,
         showDragHandle: true,
         context: context,
         builder: (context) {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ListView(
               children: <Widget>[
                 const Text(

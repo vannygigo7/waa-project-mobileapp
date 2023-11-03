@@ -1,12 +1,10 @@
+import 'package:auction_app/src/features/customer/view/my_bid/widgets/my_bid_list.dart';
 import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_sliver_appbar.dart';
 import 'package:flutter/material.dart';
 
-import 'package:auction_app/src/features/customer/view/home/widgets/home_auction_list.dart';
-import 'package:auction_app/src/features/customer/view/home/widgets/home_search_block.dart';
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class MyBidPage extends StatelessWidget {
+  const MyBidPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,7 @@ class HomePage extends StatelessWidget {
             snap: true,
             floating: true,
             title: CustomSliverAppbar(
-              title: "Auctions",
+              title: "My Bids",
             ),
           ),
           SliverToBoxAdapter(
@@ -35,9 +33,8 @@ class HomePage extends StatelessWidget {
     return const SingleChildScrollView(
       child: Column(
         children: [
-          HomeSearchBlock(),
           SizedBox(height: 10),
-          HomeAuctionList(),
+          MyBidList(),
         ],
       ),
     );
