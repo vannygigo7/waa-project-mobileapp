@@ -1,0 +1,33 @@
+name: auction_app
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  cached_network_image: ^3.3.0
+  cupertino_icons: ^1.0.2
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.0.9
+  intl: ^0.18.1
+  json_annotation: ^4.8.1
+  readmore: ^2.2.0
+  rounded_loading_button: ^2.1.0
+  timeago: ^3.6.0
+
+dev_dependencies:
+  build_runner: ^2.4.6
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+  json_serializable: ^6.7.1
+
+flutter:
+  # generate: true
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
