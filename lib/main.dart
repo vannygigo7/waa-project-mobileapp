@@ -1,4 +1,4 @@
-import 'package:auction_app/src/root_app.dart';
+import 'package:auction_app/src/features/auth/view/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const RootApp(),
+      home: const LoginPage(),
     );
   }
 }

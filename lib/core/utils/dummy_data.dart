@@ -1,3 +1,25 @@
+var userData = {
+  "id": 1,
+  "email": "c2@test.com",
+  "accessToken":
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjMkB0ZXN0LmNvbSIsImlzcyI6Ik1JVSIsImlhdCI6MTY5OTA0MDg2NiwiZXhwIjoxNjk5NDAwODY2LCJyb2xlIjoiVVNFUiJ9.2YzuvPUJgaoi_U3OrPOb2aBZVHfnSS_OPYMyGEWxVlW8XazhsRlGPVmsrxRqV_-FcQ0oqE344xqDsgGFySz5HA",
+  "role": "USER",
+  "firstName": "Customer",
+  "lastName": "2",
+  "profileImageUrl": "https://cdn-icons-png.flaticon.com/512/706/706830.png"
+};
+
+var userAccountData = {
+  "id": 1,
+  "email": "c2@test.com",
+  "accessToken":
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjMkB0ZXN0LmNvbSIsImlzcyI6Ik1JVSIsImlhdCI6MTY5OTA0NDAzMCwiZXhwIjoxNjk5NDA0MDMwLCJyb2xlIjoiVVNFUiJ9.VUSJonsdHH--iR4dDDQjkv4OfjTOTRYG-ToCEQJHMUGZBzJPJOKjhUeMbnv4ccn7b839azhgdS0twtAxCtiPMw",
+  "role": "USER",
+  "firstName": "Customer",
+  "lastName": "2",
+  "profileImageUrl": "https://cdn-icons-png.flaticon.com/512/706/706830.png"
+};
+
 var productsData = [
   {
     "id": 7,
@@ -26,6 +48,7 @@ var productsData = [
           "bidDateTime": "2023-10-25T11:35:13.736777",
           "customerId": 7,
           "customer": {
+            "id": 1,
             "email": "c2@test.com",
             "role": "USER",
             "firstName": "Customer",
@@ -40,6 +63,7 @@ var productsData = [
           "bidDateTime": "2023-10-25T11:38:38.42931",
           "customerId": 12,
           "customer": {
+            "id": 1,
             "email": "c10@test.com",
             "role": "USER",
             "firstName": "Customer",
@@ -54,6 +78,7 @@ var productsData = [
           "bidDateTime": "2023-10-25T12:16:10.325039",
           "customerId": 6,
           "customer": {
+            "id": 2,
             "email": "c@test.com",
             "role": "USER",
             "firstName": "Customer",
@@ -68,6 +93,7 @@ var productsData = [
           "bidDateTime": "2023-10-25T12:25:05.747895",
           "customerId": 7,
           "customer": {
+            "id": 1,
             "email": "c2@test.com",
             "role": "USER",
             "firstName": "Customer",
@@ -107,6 +133,7 @@ var productsData = [
           "bidDateTime": "2023-10-25T10:31:22.715552",
           "customerId": 12,
           "customer": {
+            "id": 1,
             "email": "c10@test.com",
             "role": "USER",
             "firstName": "Customer",
@@ -121,6 +148,7 @@ var productsData = [
           "bidDateTime": "2023-10-25T10:31:59.464815",
           "customerId": 7,
           "customer": {
+            "id": 1,
             "email": "c2@test.com",
             "role": "USER",
             "firstName": "Customer",

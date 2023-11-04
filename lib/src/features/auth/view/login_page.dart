@@ -1,8 +1,12 @@
+import 'package:auction_app/core/network/network_api.dart';
 import 'package:auction_app/core/utils/app_asset.dart';
 import 'package:auction_app/core/utils/app_navigate.dart';
-import 'package:auction_app/src/features/auth/pages/register_page.dart';
-import 'package:auction_app/src/features/auth/pages/widgets/login_button.dart';
-import 'package:auction_app/src/features/customer/view/home/home_page.dart';
+import 'package:auction_app/src/features/auth/data/datasource/remote/auth_remote_datasource.dart';
+import 'package:auction_app/src/features/auth/data/repository/impl/auth_repository_impl.dart';
+import 'package:auction_app/src/features/auth/model/login_request_model.dart';
+import 'package:auction_app/src/features/auth/view/register_page.dart';
+import 'package:auction_app/src/features/auth/view/widgets/login_button.dart';
+import 'package:auction_app/src/root_app.dart';
 import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_image.dart';
 import 'package:auction_app/src/widgets/custom_textfield.dart';
@@ -164,12 +168,25 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  _testLogin() {
+    final authRepository = AuthRepositoryImpl(
+        authDataSource:
+            AuthRemoteDataSource(networkAPI: NetworkAPI(endpoint: '')));
+    authRepository
+        .login(LoginRequestModel(
+            email: _emailController.text, password: _passwordController.text))
+        .then(
+          (value) => AppNavigator.toAndReplace(context, const RootApp()),
+        );
+  }
+
   Widget _buildLoginButton() {
     return LoginButton(
-        onPressed: () {
-          AppNavigator.to(context, const HomePage());
-        },
-        buttonController: buttonController);
+      onPressed: () async {
+        _testLogin();
+      },
+      buttonController: buttonController,
+    );
   }
 
   Widget getNavigationButton() {

@@ -1,3 +1,8 @@
+import 'package:auction_app/core/network/network_api.dart';
+import 'package:auction_app/core/utils/endpoint_constant.dart';
+import 'package:auction_app/src/features/customer/data/datasource/remote/auction_remote_datasource.dart';
+import 'package:auction_app/src/features/customer/data/repository/auction_repository.dart';
+import 'package:auction_app/src/features/customer/data/repository/impl/auction_repository_impl.dart';
 import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_sliver_appbar.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +11,15 @@ import 'package:auction_app/src/features/customer/view/home/widgets/home_auction
 import 'package:auction_app/src/features/customer/view/home/widgets/home_search_block.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final AuctionRepository auctionRepository = AuctionRepositoryImpl(
+      auctionDataSource: AuctionRemoteDataSource(
+          networkAPI: NetworkAPI(endpoint: EndpointConstant.home)));
 
   @override
   Widget build(BuildContext context) {
+    auctionRepository.getAll();
     return Scaffold(
       backgroundColor: AppColor.appBgColor,
       body: CustomScrollView(

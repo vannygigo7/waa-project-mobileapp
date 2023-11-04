@@ -1,5 +1,10 @@
+import 'package:auction_app/core/network/network_api.dart';
 import 'package:auction_app/core/utils/app_asset.dart';
 import 'package:auction_app/core/utils/app_navigate.dart';
+import 'package:auction_app/src/features/auth/data/datasource/remote/auth_remote_datasource.dart';
+import 'package:auction_app/src/features/auth/data/repository/impl/auth_repository_impl.dart';
+import 'package:auction_app/src/features/auth/model/register_request_model.dart';
+import 'package:auction_app/src/root_app.dart';
 import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_image.dart';
 import 'package:auction_app/src/widgets/custom_textfield.dart';
@@ -178,6 +183,23 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  _testRegister() {
+    final authRepository = AuthRepositoryImpl(
+        authDataSource:
+            AuthRemoteDataSource(networkAPI: NetworkAPI(endpoint: '')));
+    authRepository
+        .register(RegisterRequestModel(
+            email: _emailController.text,
+            password: _passwordController.text,
+            role: "USER",
+            firstName: _nameController.text,
+            lastName: _nameController.text,
+            profileImageUrl: ''))
+        .then(
+          (value) => AppNavigator.toAndReplace(context, const RootApp()),
+        );
+  }
+
   Widget _buildRegisterButton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,7 +209,9 @@ class _RegisterPageState extends State<RegisterPage> {
             width: MediaQuery.of(context).size.width,
             color: AppColor.primary,
             controller: btnController,
-            onPressed: () async {},
+            onPressed: () async {
+              _testRegister();
+            },
             child: const Text(
               "Register",
               style: TextStyle(

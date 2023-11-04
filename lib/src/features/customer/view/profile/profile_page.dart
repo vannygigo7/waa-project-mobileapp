@@ -1,12 +1,20 @@
 import 'package:auction_app/core/utils/app_constant.dart';
+import 'package:auction_app/core/utils/app_navigate.dart';
+import 'package:auction_app/core/utils/app_util.dart';
+import 'package:auction_app/core/utils/dummy_data.dart';
+import 'package:auction_app/src/features/auth/view/login_page.dart';
+import 'package:auction_app/src/features/customer/model/user_model.dart';
 import 'package:auction_app/src/features/customer/view/profile/widgets/settting_item.dart';
 import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_image.dart';
 import 'package:auction_app/src/widgets/custom_sliver_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
+
+  final UserModel user = UserModel.fromJson(userData);
 
   @override
   Widget build(BuildContext context) {
@@ -77,16 +85,19 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildProfileImage() {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CustomImage(
-          'https://avatars.githubusercontent.com/u/86506519?v=4',
-          imageType: ImageType.network,
-          width: 70,
-          height: 70,
-          radius: 100,
-        )
+        AppUtil.checkIsNull(user.profileImageUrl)
+            ? RandomAvatar(user.email,
+                trBackground: true, width: 70, height: 70)
+            : CustomImage(
+                user.profileImageUrl,
+                imageType: ImageType.network,
+                width: 70,
+                height: 70,
+                radius: 100,
+              )
       ],
     );
   }
@@ -161,7 +172,9 @@ class ProfilePage extends StatelessWidget {
               Icons.arrow_forward_ios,
               size: 14,
             ),
-            onTap: () {},
+            onTap: () {
+              AppNavigator.toAndReplace(context, const LoginPage());
+            },
           ),
         ],
       ),

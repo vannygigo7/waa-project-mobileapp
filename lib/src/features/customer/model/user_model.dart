@@ -4,6 +4,7 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel {
+  final int id;
   final String email;
   final String role;
   final String firstName;
@@ -11,6 +12,7 @@ class UserModel {
   final String profileImageUrl;
 
   UserModel({
+    required this.id,
     required this.email,
     required this.role,
     required this.firstName,

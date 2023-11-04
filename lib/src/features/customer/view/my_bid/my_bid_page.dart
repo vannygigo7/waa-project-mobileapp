@@ -1,4 +1,5 @@
 import 'package:auction_app/src/features/customer/view/my_bid/widgets/my_bid_list.dart';
+import 'package:auction_app/src/features/customer/view/my_bid/widgets/my_bid_search_block.dart';
 import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_sliver_appbar.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class MyBidPage extends StatelessWidget {
     return const SingleChildScrollView(
       child: Column(
         children: [
+          MyBidSearchBlock(),
           SizedBox(height: 10),
           MyBidList(),
         ],

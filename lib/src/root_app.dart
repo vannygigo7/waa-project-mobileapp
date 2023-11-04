@@ -20,12 +20,12 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
     {
       "icon": "assets/icons/home.svg",
       "active_icon": "assets/icons/home.svg",
-      "page": const HomePage(),
+      "page": HomePage(),
     },
     {
       "icon": "assets/icons/search.svg",
       "active_icon": "assets/icons/search.svg",
-      "page": const HomePage(),
+      "page": Container(),
     },
     {
       "icon": "assets/icons/time.svg",
@@ -35,7 +35,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
     {
       "icon": "assets/icons/profile.svg",
       "active_icon": "assets/icons/profile.svg",
-      "page": const ProfilePage(),
+      "page": ProfilePage(),
     },
   ];
 
