@@ -2,19 +2,21 @@ import 'package:auction_app/src/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextBox extends StatelessWidget {
-  const CustomTextBox({
-    Key? key,
-    this.hint = "",
-    this.prefix,
-    this.suffix,
-    this.controller,
-    this.readOnly = false,
-  }) : super(key: key);
+  const CustomTextBox(
+      {Key? key,
+      this.hint = "",
+      this.prefix,
+      this.suffix,
+      this.controller,
+      this.readOnly = false,
+      this.keyboardType})
+      : super(key: key);
 
   final String hint;
   final Widget? prefix;
   final Widget? suffix;
   final bool readOnly;
+  final TextInputType? keyboardType;
   final TextEditingController? controller;
 
   @override
@@ -38,6 +40,7 @@ class CustomTextBox extends StatelessWidget {
       child: TextField(
         readOnly: readOnly,
         controller: controller,
+        keyboardType: keyboardType,
         decoration: InputDecoration(
           prefixIcon: prefix,
           suffixIcon: suffix,

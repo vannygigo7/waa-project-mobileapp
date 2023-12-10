@@ -21,14 +21,16 @@ class AuthRemoteDataSource implements AuthDataSource {
       var reqBody = data.toJson();
       reqBody = {'email': 'c2@test.com', 'password': '123'};
       var res = await networkAPI.add(jsonEncode(reqBody));
+      NetworkResponseModel responseModel =
+          NetworkResponseModel.fromJson(jsonDecode(res.body));
+      AppUtil.debugPrint(res.body);
       if (res.statusCode == 200) {
-        NetworkResponseModel networkResponseModel =
-            NetworkResponseModel.fromJson(jsonDecode(res.body));
-        return AuthMapper.jsonToUserAccountModel(networkResponseModel.data);
+        return AuthMapper.jsonToUserAccountModel(responseModel.data);
       }
-      throw Exception();
+      throw ServerException(
+          statusCode: responseModel.statusCode, message: responseModel.message);
     } catch (e) {
-      throw ServerException();
+      rethrow;
     }
   }
 
@@ -50,13 +52,13 @@ class AuthRemoteDataSource implements AuthDataSource {
       var res = await networkAPI.add(jsonEncode(reqBody));
       AppUtil.debugPrint(res.body);
       if (res.statusCode == 200) {
-        NetworkResponseModel networkResponseModel =
+        NetworkResponseModel responseModel =
             NetworkResponseModel.fromJson(jsonDecode(res.body));
-        AppUtil.debugPrint(networkResponseModel.data);
+        AppUtil.debugPrint(responseModel.data);
       }
       throw ServerException();
     } catch (e) {
-      throw ServerException();
+      throw Exception();
     }
   }
 }

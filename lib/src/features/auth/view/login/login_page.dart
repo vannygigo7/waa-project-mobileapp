@@ -1,16 +1,18 @@
 import 'package:auction_app/core/network/network_api.dart';
-import 'package:auction_app/core/utils/app_asset.dart';
 import 'package:auction_app/core/utils/app_navigate.dart';
+import 'package:auction_app/src/features/auth/cubit/auth_cubit.dart';
 import 'package:auction_app/src/features/auth/data/datasource/remote/auth_remote_datasource.dart';
 import 'package:auction_app/src/features/auth/data/repository/impl/auth_repository_impl.dart';
 import 'package:auction_app/src/features/auth/model/login_request_model.dart';
-import 'package:auction_app/src/features/auth/view/register_page.dart';
-import 'package:auction_app/src/features/auth/view/widgets/login_button.dart';
+import 'package:auction_app/src/features/auth/view/login/widgets/login_button.dart';
+import 'package:auction_app/src/features/auth/view/login/widgets/login_logo.dart';
+import 'package:auction_app/src/features/auth/view/login/widgets/login_navigate_register.dart';
 import 'package:auction_app/src/root_app.dart';
 import 'package:auction_app/src/theme/app_color.dart';
-import 'package:auction_app/src/widgets/custom_image.dart';
+import 'package:auction_app/src/widgets/custom_dialog.dart';
 import 'package:auction_app/src/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,7 +25,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final buttonController = RoundedLoadingButtonController();
+  final _buttonController = RoundedLoadingButtonController();
 
   @override
   void didChangeDependencies() {
@@ -47,8 +49,8 @@ class _LoginPageState extends State<LoginPage> {
     bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
       body: buildBody(),
-      floatingActionButton:
-          Visibility(visible: !keyboardIsOpen, child: getNavigationButton()),
+      floatingActionButton: Visibility(
+          visible: !keyboardIsOpen, child: const LoginNavigateRegister()),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
     );
@@ -65,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
-            _buildLogo(),
+            const LoginLogo(),
             const SizedBox(
               height: 10,
             ),
@@ -101,7 +103,14 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 25,
             ),
-            _buildLoginButton()
+            LoginButton(
+              onPressed: () async {
+                _testLogin();
+                // BlocProvider.of<AuthCubit>(context)
+                //     .login(_emailController.text, _passwordController.text);
+              },
+              buttonController: _buttonController,
+            ),
           ],
         ),
       ),
@@ -120,22 +129,6 @@ class _LoginPageState extends State<LoginPage> {
             fontWeight: FontWeight.w400,
             fontSize: 15,
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLogo() {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        width: 150,
-        height: 150,
-        child: CustomImage(
-          AppAsset.logo,
-          padding: 10,
-          bgColor: Theme.of(context).scaffoldBackgroundColor,
-          radius: 5,
         ),
       ),
     );
@@ -175,58 +168,37 @@ class _LoginPageState extends State<LoginPage> {
     authRepository
         .login(LoginRequestModel(
             email: _emailController.text, password: _passwordController.text))
-        .then(
-          (value) => AppNavigator.toAndReplace(context, const RootApp()),
-        );
-  }
-
-  Widget _buildLoginButton() {
-    return LoginButton(
-      onPressed: () async {
-        _testLogin();
-      },
-      buttonController: buttonController,
-    );
-  }
-
-  Widget getNavigationButton() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        GestureDetector(
-          onTap: () {
-            AppNavigator.to(context, const RegisterPage());
+        .then((value) {
+      _buttonController.reset();
+      value.fold(
+        (l) {
+          if (mounted) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomDialogBox(
+                  title: "Login",
+                  descriptions: l.message,
+                );
+              },
+            );
+          }
+        },
+        (r) => AppNavigator.toAndReplace(context, const RootApp()),
+      );
+    }, onError: (error) {
+      _buttonController.reset();
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              title: "Login",
+              descriptions: error.message,
+            );
           },
-          child: Container(
-            width: 90,
-            height: 40,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).shadowColor.withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                  offset: const Offset(1, 1), // changes position of shadow
-                ),
-              ],
-            ),
-            child: const Text(
-              "Register",
-              style: TextStyle(
-                color: AppColor.primary,
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-          ),
-        )
-      ],
-    );
+        );
+      }
+    });
   }
 }

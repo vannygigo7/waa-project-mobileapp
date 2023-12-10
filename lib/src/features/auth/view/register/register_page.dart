@@ -1,12 +1,13 @@
 import 'package:auction_app/core/network/network_api.dart';
-import 'package:auction_app/core/utils/app_asset.dart';
 import 'package:auction_app/core/utils/app_navigate.dart';
 import 'package:auction_app/src/features/auth/data/datasource/remote/auth_remote_datasource.dart';
 import 'package:auction_app/src/features/auth/data/repository/impl/auth_repository_impl.dart';
 import 'package:auction_app/src/features/auth/model/register_request_model.dart';
+import 'package:auction_app/src/features/auth/view/register/widgets/register_button.dart';
+import 'package:auction_app/src/features/auth/view/register/widgets/register_logo.dart';
+import 'package:auction_app/src/features/auth/view/register/widgets/register_navigate_login.dart';
 import 'package:auction_app/src/root_app.dart';
-import 'package:auction_app/src/theme/app_color.dart';
-import 'package:auction_app/src/widgets/custom_image.dart';
+import 'package:auction_app/src/widgets/custom_dialog.dart';
 import 'package:auction_app/src/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -23,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _conPasswordController = TextEditingController();
-  final btnController = RoundedLoadingButtonController();
+  final _buttonController = RoundedLoadingButtonController();
 
   @override
   void didChangeDependencies() {
@@ -44,8 +45,8 @@ class _RegisterPageState extends State<RegisterPage> {
     bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
       body: _buildBody(),
-      floatingActionButton:
-          Visibility(visible: !keyboardIsOpen, child: getNavigationButton()),
+      floatingActionButton: Visibility(
+          visible: !keyboardIsOpen, child: const RegisterNavigateLogin()),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
     );
@@ -62,7 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
-            _buildLogo(),
+            const RegisterLogo(),
             const SizedBox(
               height: 10,
             ),
@@ -107,7 +108,12 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(
               height: 30,
             ),
-            _buildRegisterButton()
+            RegisterButton(
+              onPressed: () {
+                _testRegister();
+              },
+              buttonController: _buttonController,
+            )
           ],
         ),
       ),
@@ -167,22 +173,6 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _buildLogo() {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        width: 150,
-        height: 150,
-        child: CustomImage(
-          AppAsset.logo,
-          padding: 10,
-          bgColor: Theme.of(context).scaffoldBackgroundColor,
-          radius: 5,
-        ),
-      ),
-    );
-  }
-
   _testRegister() {
     final authRepository = AuthRepositoryImpl(
         authDataSource:
@@ -195,74 +185,37 @@ class _RegisterPageState extends State<RegisterPage> {
             firstName: _nameController.text,
             lastName: _nameController.text,
             profileImageUrl: ''))
-        .then(
-          (value) => AppNavigator.toAndReplace(context, const RootApp()),
-        );
-  }
-
-  Widget _buildRegisterButton() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: RoundedLoadingButton(
-            width: MediaQuery.of(context).size.width,
-            color: AppColor.primary,
-            controller: btnController,
-            onPressed: () async {
-              _testRegister();
-            },
-            child: const Text(
-              "Register",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget getNavigationButton() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        GestureDetector(
-          onTap: () {
-            AppNavigator.back(context);
+        .then((value) {
+      _buttonController.reset();
+      value.fold(
+        (l) {
+          if (mounted) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomDialogBox(
+                  title: "Register",
+                  descriptions: l.message,
+                );
+              },
+            );
+          }
+        },
+        (r) => AppNavigator.toAndReplace(context, const RootApp()),
+      );
+    }, onError: (error) {
+      _buttonController.reset();
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              title: "Register",
+              descriptions: error.message,
+            );
           },
-          child: Container(
-            width: 80,
-            height: 40,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).shadowColor.withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                  offset: const Offset(1, 1), // changes position of shadow
-                ),
-              ],
-            ),
-            child: const Text(
-              "Login",
-              style: TextStyle(
-                color: AppColor.primary,
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-          ),
-        )
-      ],
-    );
+        );
+      }
+    });
   }
 }

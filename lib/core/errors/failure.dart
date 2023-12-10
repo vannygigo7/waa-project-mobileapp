@@ -19,3 +19,7 @@ class ServerFailure extends Failure {
 class CacheFailure extends Failure {
   const CacheFailure({required super.message, required super.statusCode});
 }
+
+class GeneralFailure extends Failure {
+  const GeneralFailure({required super.message, required super.statusCode});
+}

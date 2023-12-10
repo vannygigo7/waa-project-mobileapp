@@ -4,13 +4,13 @@ import 'package:auction_app/core/errors/exception.dart';
 import 'package:auction_app/core/network/dto/network_response_model.dart';
 import 'package:auction_app/core/network/network_api.dart';
 import 'package:auction_app/core/utils/endpoint_constant.dart';
-import 'package:auction_app/src/features/customer/data/datasource/auction_datasource.dart';
+import 'package:auction_app/src/features/customer/data/datasource/customer_datasource.dart';
 import 'package:auction_app/src/features/customer/data/mapper/auction_mapper.dart';
 import 'package:auction_app/src/features/customer/model/product_model.dart';
 
-class AuctionRemoteDataSource implements AuctionDataSource {
-  AuctionRemoteDataSource();
-  final networkAPI = NetworkAPI(endpoint: EndpointConstant.home);
+class CustomerRemoteDataSource implements CustomerDataSource {
+  CustomerRemoteDataSource();
+  final networkAPI = NetworkAPI(endpoint: EndpointConstant.customerProduct);
 
   @override
   Future<List<ProductModel>> getAll() async {
@@ -22,16 +22,19 @@ class AuctionRemoteDataSource implements AuctionDataSource {
         return AuctionMapper.jsonToProductModelList(responseModel.data);
       }
       throw ServerException(
-          statusCode: responseModel.statusCode, message: responseModel.message);
+          message: responseModel.message, statusCode: responseModel.statusCode);
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<ProductModel> getById(int productId) async {
+  Future<ProductModel> addBid(int productId, double bidAmount) async {
     try {
-      final result = await networkAPI.getById(productId);
+      networkAPI.endpoint = "${EndpointConstant.customerProduct}/$productId";
+      final reqBody = {"bidAmount": bidAmount};
+      final result = await networkAPI.add(jsonEncode(reqBody));
+      networkAPI.endpoint = EndpointConstant.customerProduct;
       NetworkResponseModel responseModel =
           NetworkResponseModel.fromJson(jsonDecode(result.body));
       if (result.statusCode == 200) {

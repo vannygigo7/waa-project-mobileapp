@@ -16,27 +16,23 @@ class RootApp extends StatefulWidget {
 
 class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
   int _activeTab = 0;
-  final List _barItems = [
-    {
-      "icon": "assets/icons/home.svg",
-      "active_icon": "assets/icons/home.svg",
-      "page": HomePage(),
-    },
-    {
-      "icon": "assets/icons/search.svg",
-      "active_icon": "assets/icons/search.svg",
-      "page": Container(),
-    },
-    {
-      "icon": "assets/icons/time.svg",
-      "active_icon": "assets/icons/time.svg",
-      "page": const MyBidPage(),
-    },
-    {
-      "icon": "assets/icons/profile.svg",
-      "active_icon": "assets/icons/profile.svg",
-      "page": ProfilePage(),
-    },
+  final List<_BarItem> _barItems = [
+    _BarItem(
+        icon: "assets/icons/home.svg",
+        activeIcon: "assets/icons/home.svg",
+        page: const HomePage()),
+    _BarItem(
+        icon: "assets/icons/search.svg",
+        activeIcon: "assets/icons/search.svg",
+        page: const SizedBox()),
+    _BarItem(
+        icon: "assets/icons/time.svg",
+        activeIcon: "assets/icons/time.svg",
+        page: const MyBidPage()),
+    _BarItem(
+        icon: "assets/icons/profile.svg",
+        activeIcon: "assets/icons/profile.svg",
+        page: ProfilePage()),
   ];
 
 //====== set animation=====
@@ -91,7 +87,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
       index: _activeTab,
       children: List.generate(
         _barItems.length,
-        (index) => _buildAnimatedPage(_barItems[index]["page"]),
+        (index) => _buildAnimatedPage(_barItems[index].page),
       ),
     );
   }
@@ -131,7 +127,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
         children: List.generate(
           _barItems.length,
           (index) => BottomBarItem(
-            _barItems[index]["icon"],
+            _barItems[index].icon,
             isActive: _activeTab == index,
             activeColor: AppColor.primary,
             onTap: () {
@@ -144,11 +140,11 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
   }
 }
 
-class BarItem {
+class _BarItem {
   String icon;
   String activeIcon;
   Widget page;
-  BarItem({
+  _BarItem({
     required this.icon,
     required this.activeIcon,
     required this.page,

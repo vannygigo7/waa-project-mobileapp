@@ -1,21 +1,25 @@
 import 'package:auction_app/core/utils/app_constant.dart';
 import 'package:auction_app/core/utils/app_util.dart';
+import 'package:auction_app/src/features/customer/cubit/add_bid/add_bit_cubit.dart';
+import 'package:auction_app/src/features/customer/cubit/add_bid/add_bit_state.dart';
 import 'package:auction_app/src/features/customer/model/product_model.dart';
 import 'package:auction_app/src/features/customer/view/auction_detail/widgets/auction_detail_banner.dart';
 import 'package:auction_app/src/features/customer/view/auction_detail/widgets/auction_detail_bid_list.dart';
-import 'package:auction_app/src/features/customer/view/auction_detail/widgets/auction_detail_bottom_block.dart';
+import 'package:auction_app/src/features/customer/view/auction_detail/widgets/auction_detail_footer.dart';
 import 'package:auction_app/src/features/customer/view/auction_detail/widgets/auction_detail_image.dart';
 import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_appbar.dart';
+import 'package:auction_app/src/widgets/custom_toast.dart';
 import 'package:auction_app/src/widgets/favorite_box.dart';
 import 'package:auction_app/src/widgets/timer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class AuctionDetailPage extends StatelessWidget {
-  const AuctionDetailPage(
-      {required this.product, this.isHero = false, Key? key})
+  AuctionDetailPage({required this.product, this.isHero = false, Key? key})
       : super(key: key);
-  final ProductModel product;
+  ProductModel product;
   final bool isHero;
 
   @override
@@ -32,10 +36,28 @@ class AuctionDetailPage extends StatelessWidget {
           SizedBox(width: 15),
         ],
       ),
-      body: _buildBody(context),
-      bottomNavigationBar: product.auction.isEnd
-          ? null
-          : CourseDetailBottomBlock(product: product),
+      body: BlocConsumer<AddBidCubit, AddBidState>(
+        listener: (context, state) {
+          if (state.status == AddBidStatus.success) {
+            AppUtil.showToast(state.message, context,
+                type: CustomToastType.success);
+          } else if (state.status == AddBidStatus.error) {
+            AppUtil.showToast(state.message, context,
+                type: CustomToastType.error);
+          }
+        },
+        buildWhen: (previous, current) => previous.product != current.product,
+        builder: (context, state) {
+          if (state.status == AddBidStatus.success) {
+            product = state.product != null && state.product!.id == product.id
+                ? state.product!
+                : product;
+          }
+          return _buildBody(context);
+        },
+      ),
+      bottomNavigationBar:
+          product.auction.isEnd ? null : AuctionDetailFooter(product: product),
     );
   }
 

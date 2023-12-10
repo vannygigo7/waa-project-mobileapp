@@ -1,7 +1,9 @@
 import 'package:auction_app/src/theme/app_color.dart';
+import 'package:auction_app/src/widgets/custom_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import 'package:timeago/timeago.dart' as timeago;
@@ -90,5 +92,19 @@ class AppUtil {
 
   static bool compareDateTimes(DateTime dateTime1, DateTime dateTime2) {
     return dateTime1.isBefore(dateTime2);
+  }
+
+  static void showToast(String message, BuildContext context,
+      {int duration = 2, CustomToastType type = CustomToastType.normal}) {
+    var fToast = FToast();
+    fToast.init(context);
+    fToast.showToast(
+      child: CustomToast(
+        message: message,
+        type: type,
+      ),
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: duration),
+    );
   }
 }

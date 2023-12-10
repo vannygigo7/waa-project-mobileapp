@@ -10,4 +10,12 @@ class AuctionMapper {
       throw Exception(e.toString());
     }
   }
+
+  static ProductModel jsonToProductModel(Map<String, dynamic> data) {
+    try {
+      return ProductModel.fromJson(data);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
 }

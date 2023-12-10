@@ -6,8 +6,11 @@ import 'package:auction_app/src/widgets/custom_image.dart';
 import 'package:flutter/material.dart';
 
 class AuctionDetailBidTile extends StatelessWidget {
-  const AuctionDetailBidTile({Key? key, required this.bid}) : super(key: key);
+  const AuctionDetailBidTile(
+      {Key? key, required this.bid, this.bidAmountColor = AppColor.grey})
+      : super(key: key);
   final BidModel bid;
+  final Color bidAmountColor;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +66,7 @@ class AuctionDetailBidTile extends StatelessWidget {
               ),
             ),
             Card(
-              color: AppColor.green,
+              color: bidAmountColor,
               child: Padding(
                 padding: const EdgeInsets.all(4),
                 child: Text(

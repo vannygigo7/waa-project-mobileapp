@@ -2,8 +2,11 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 const _baseUrl = 'http://localhost:8080/api';
+// const _auth =
+//     'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjMkB0ZXN0LmNvbSIsImlzcyI6Ik1JVSIsImlhdCI6MTY5OTA3MjUyNywiZXhwIjoxNjk5NDMyNTI3LCJyb2xlIjoiVVNFUiJ9.3SC50ePLfuK_Wl4r-k2LIbHRcbMgjQaMg9Ty0jIgM9jefXEf_UZXjcBLBNK0lnADPfHPKweb1KPVfaaihrQ2Yg';
 const _auth =
-    'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjMkB0ZXN0LmNvbSIsImlzcyI6Ik1JVSIsImlhdCI6MTY5OTA0NDAzMCwiZXhwIjoxNjk5NDA0MDMwLCJyb2xlIjoiVVNFUiJ9.VUSJonsdHH--iR4dDDQjkv4OfjTOTRYG-ToCEQJHMUGZBzJPJOKjhUeMbnv4ccn7b839azhgdS0twtAxCtiPMw';
+    'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjMkB0ZXN0LmNvbSIsImlzcyI6Ik1JVSIsImlhdCI6MTcwMTcyNjQ4MywiZXhwIjoxNzAyMDg2NDgzLCJyb2xlIjoiVVNFUiJ9.sBEYuzlO8vyFPqPapLvrGqcLUZDLlB_G9NNX-rTst1HE9kjfNWif6BhKuFSYoYgG3dh4bqaP_bc49LQ-utnDoA';
+
 const _header = {
   'Content-Type': 'application/json; charset=UTF-8',
   'Authorization': _auth,
@@ -14,8 +17,9 @@ class NetworkAPI {
   String endpoint;
   String baseUrl;
 
-  Future<Response> getAll() async {
-    var uri = Uri.parse('$baseUrl$endpoint');
+  ///params should be 'param1=abc&param2=abc'
+  Future<Response> getAll({String? params}) async {
+    var uri = Uri.parse('$baseUrl$endpoint?$params');
     return await http.get(uri, headers: _header);
   }
 
