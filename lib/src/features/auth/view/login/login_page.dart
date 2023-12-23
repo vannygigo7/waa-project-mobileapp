@@ -153,6 +153,7 @@ class _LoginPageState extends State<LoginPage> {
         Icons.lock_outline,
         color: Colors.grey,
       ),
+      obscureText: true,
       suffixIcon: GestureDetector(
         onTap: () {},
         child: const Icon(Icons.visibility_off_outlined, color: Colors.grey),

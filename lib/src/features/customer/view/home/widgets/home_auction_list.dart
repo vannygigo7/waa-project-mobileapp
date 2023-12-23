@@ -1,4 +1,5 @@
 import 'package:auction_app/core/utils/app_navigate.dart';
+import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/src/features/customer/cubit/auction/auction_cubit.dart';
 import 'package:auction_app/src/features/customer/cubit/auction/auction_state.dart';
 import 'package:auction_app/src/features/customer/model/product_model.dart';
@@ -25,7 +26,12 @@ class _HomeAuctionListState extends State<HomeAuctionList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuctionCubit, AuctionState>(
+    return BlocConsumer<AuctionCubit, AuctionState>(
+      listener: (context, state) {
+        if (state is AuctionError) {
+          AppUtil.showSnackBar(state.errorMessage, context);
+        }
+      },
       builder: (context, state) {
         if (state is AuctionLoading) {
           return const CustomProgressIndicator();

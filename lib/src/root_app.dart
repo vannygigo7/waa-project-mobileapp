@@ -16,24 +16,7 @@ class RootApp extends StatefulWidget {
 
 class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
   int _activeTab = 0;
-  final List<_BarItem> _barItems = [
-    _BarItem(
-        icon: "assets/icons/home.svg",
-        activeIcon: "assets/icons/home.svg",
-        page: const HomePage()),
-    _BarItem(
-        icon: "assets/icons/search.svg",
-        activeIcon: "assets/icons/search.svg",
-        page: const SizedBox()),
-    _BarItem(
-        icon: "assets/icons/time.svg",
-        activeIcon: "assets/icons/time.svg",
-        page: const MyBidPage()),
-    _BarItem(
-        icon: "assets/icons/profile.svg",
-        activeIcon: "assets/icons/profile.svg",
-        page: ProfilePage()),
-  ];
+  late final List<_BarItem> _barItems;
 
 //====== set animation=====
   late final AnimationController _controller = AnimationController(
@@ -48,7 +31,28 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller.forward();
+    _barItems = [
+      _BarItem(
+          icon: "assets/icons/home.svg",
+          activeIcon: "assets/icons/home.svg",
+          page: const HomePage()),
+      _BarItem(
+          icon: "assets/icons/search.svg",
+          activeIcon: "assets/icons/search.svg",
+          page: const SizedBox()),
+      _BarItem(
+          icon: "assets/icons/time.svg",
+          activeIcon: "assets/icons/time.svg",
+          page: const MyBidPage()),
+      _BarItem(
+          icon: "assets/icons/profile.svg",
+          activeIcon: "assets/icons/profile.svg",
+          page: ProfilePage()),
+    ];
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _controller.forward();
+    });
   }
 
   @override
@@ -62,7 +66,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
     return FadeTransition(child: page, opacity: _animation);
   }
 
-  void onPageChanged(int index) {
+  void _onPageChanged(int index) {
     if (index == _activeTab) return;
     _controller.reset();
     setState(() {
@@ -77,12 +81,16 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.appBgColor,
-      bottomNavigationBar: _buildBottomBar(),
-      body: _buildPage(),
+      bottomNavigationBar: _BottomBar(
+        barItems: _barItems,
+        onTap: (index) => _onPageChanged(index),
+        activeIndex: _activeTab,
+      ),
+      body: _buildPages(),
     );
   }
 
-  Widget _buildPage() {
+  Widget _buildPages() {
     return IndexedStack(
       index: _activeTab,
       children: List.generate(
@@ -91,8 +99,18 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
       ),
     );
   }
+}
 
-  Widget _buildBottomBar() {
+class _BottomBar extends StatelessWidget {
+  const _BottomBar(
+      {required this.barItems, required this.onTap, this.activeIndex = 0});
+
+  final List<_BarItem> barItems;
+  final int activeIndex;
+  final Function(int index) onTap;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 75,
       width: double.infinity,
@@ -125,14 +143,12 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
-          _barItems.length,
+          barItems.length,
           (index) => BottomBarItem(
-            _barItems[index].icon,
-            isActive: _activeTab == index,
+            barItems[index].icon,
+            isActive: activeIndex == index,
             activeColor: AppColor.primary,
-            onTap: () {
-              onPageChanged(index);
-            },
+            onTap: () => onTap(index),
           ),
         ),
       ),

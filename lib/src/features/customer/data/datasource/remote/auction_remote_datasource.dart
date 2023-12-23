@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:auction_app/core/errors/exception.dart';
 import 'package:auction_app/core/network/dto/network_response_model.dart';
 import 'package:auction_app/core/network/network_api.dart';
+import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/core/utils/endpoint_constant.dart';
 import 'package:auction_app/src/features/customer/data/datasource/auction_datasource.dart';
 import 'package:auction_app/src/features/customer/data/mapper/auction_mapper.dart';
@@ -15,6 +16,7 @@ class AuctionRemoteDataSource implements AuctionDataSource {
   @override
   Future<List<ProductModel>> getAll() async {
     try {
+      AppUtil.debugPrint("AuctionRemoteDataSource: getAll");
       final result = await networkAPI.getAll();
       NetworkResponseModel responseModel =
           NetworkResponseModel.fromJson(jsonDecode(result.body));

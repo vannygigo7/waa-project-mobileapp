@@ -150,6 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
         Icons.lock_outline,
         color: Colors.grey,
       ),
+      obscureText: true,
       suffixIcon: GestureDetector(
         onTap: () {},
         child: const Icon(Icons.visibility_off_outlined, color: Colors.grey),
@@ -165,6 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
         Icons.lock_outline,
         color: Colors.grey,
       ),
+      obscureText: true,
       suffixIcon: GestureDetector(
         onTap: () {},
         child: const Icon(Icons.visibility_off_outlined, color: Colors.grey),

@@ -1,5 +1,6 @@
 import 'package:auction_app/core/errors/exception.dart';
 import 'package:auction_app/core/errors/failure.dart';
+import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/core/utils/typedef.dart';
 import 'package:auction_app/src/features/customer/data/datasource/auction_datasource.dart';
 import 'package:auction_app/src/features/customer/data/repository/auction_repository.dart';
@@ -13,6 +14,7 @@ class AuctionRepositoryImpl implements AuctionRepository {
   @override
   ResultFuture<List<ProductModel>> getAll() async {
     try {
+      AppUtil.debugPrint("AuctionRepositoryImpl: getAll");
       final res = await auctionDataSource.getAll();
       return Right(res);
     } on ServerException catch (e) {
