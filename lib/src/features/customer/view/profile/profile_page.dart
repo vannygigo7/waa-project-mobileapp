@@ -2,6 +2,7 @@ import 'package:auction_app/core/utils/app_constant.dart';
 import 'package:auction_app/core/utils/app_navigate.dart';
 import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/core/utils/dummy_data.dart';
+import 'package:auction_app/src/features/auth/cubit/auth_cubit.dart';
 import 'package:auction_app/src/features/auth/view/login/login_page.dart';
 import 'package:auction_app/src/features/customer/model/user_model.dart';
 import 'package:auction_app/src/features/customer/view/profile/widgets/settting_item.dart';
@@ -9,6 +10,7 @@ import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_image.dart';
 import 'package:auction_app/src/widgets/custom_sliver_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -173,7 +175,7 @@ class ProfilePage extends StatelessWidget {
               size: 14,
             ),
             onTap: () {
-              AppNavigator.toAndReplace(context, const LoginPage());
+              BlocProvider.of<AuthCubit>(context).logOut();
             },
           ),
         ],

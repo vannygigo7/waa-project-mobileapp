@@ -9,6 +9,9 @@ import 'package:auction_app/src/widgets/bottombar_item.dart';
 
 class RootApp extends StatefulWidget {
   const RootApp({Key? key}) : super(key: key);
+  static Route<void> route() {
+    return MaterialPageRoute<void>(builder: (_) => const RootApp());
+  }
 
   @override
   State<RootApp> createState() => _RootAppState();

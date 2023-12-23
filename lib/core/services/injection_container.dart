@@ -1,3 +1,9 @@
+import 'package:auction_app/core/network/network_api.dart';
+import 'package:auction_app/src/features/auth/cubit/auth_cubit.dart';
+import 'package:auction_app/src/features/auth/data/datasource/auth_datasource.dart';
+import 'package:auction_app/src/features/auth/data/datasource/remote/auth_remote_datasource.dart';
+import 'package:auction_app/src/features/auth/data/repository/auth_repository.dart';
+import 'package:auction_app/src/features/auth/data/repository/impl/auth_repository_impl.dart';
 import 'package:auction_app/src/features/customer/cubit/add_bid/add_bit_cubit.dart';
 import 'package:auction_app/src/features/customer/cubit/auction/auction_cubit.dart';
 import 'package:auction_app/src/features/customer/cubit/my_bid/my_bid_cubit.dart';
@@ -28,4 +34,11 @@ Future initLocator() async {
         () => CustomerRemoteDataSource());
 
   locator.registerFactory(() => AddBidCubit(customerRepository: locator()));
+
+  locator
+    ..registerFactory(() => AuthCubit(authRepository: locator()))
+    ..registerLazySingleton<AuthRepository>(
+        () => AuthRepositoryImpl(authDataSource: locator()))
+    ..registerLazySingleton<AuthDataSource>(
+        () => AuthRemoteDataSource(networkAPI: NetworkAPI(endpoint: '')));
 }

@@ -19,7 +19,7 @@ class AuthRemoteDataSource implements AuthDataSource {
     try {
       networkAPI.endpoint = EndpointConstant.login;
       var reqBody = data.toJson();
-      reqBody = {'email': 'c2@test.com', 'password': '123'};
+      // reqBody = {'email': 'c10@test.com', 'password': '123'};
       var res = await networkAPI.add(jsonEncode(reqBody));
       NetworkResponseModel responseModel =
           NetworkResponseModel.fromJson(jsonDecode(res.body));

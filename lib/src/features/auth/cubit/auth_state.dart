@@ -2,14 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:auction_app/src/features/auth/model/user_account_model.dart';
 
-enum AuthStatus {
-  initial,
-  loading,
-  authenticated,
-  unAuthenticated,
-  warning,
-  error
-}
+enum AuthStatus { initial, loading, authenticated, unAuthenticated, error }
 
 class AuthState extends Equatable {
   final UserAccountModel? userAccount;
