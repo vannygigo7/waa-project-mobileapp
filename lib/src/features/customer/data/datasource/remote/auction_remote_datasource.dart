@@ -12,9 +12,9 @@ class AuctionRemoteDataSource implements AuctionDataSource {
   final NetworkService networkService;
 
   @override
-  Future<List<ProductModel>> getAll() async {
+  Future<List<ProductModel>> getAll({String? params}) async {
     try {
-      final result = await networkService.getAll();
+      final result = await networkService.getAll(params: params);
       NetworkResponseModel responseModel =
           NetworkResponseModel.fromJson(jsonDecode(result.body));
       if (result.statusCode == 200) {

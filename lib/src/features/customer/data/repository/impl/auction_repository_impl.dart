@@ -11,9 +11,9 @@ class AuctionRepositoryImpl implements AuctionRepository {
   final AuctionDataSource auctionDataSource;
 
   @override
-  ResultFuture<List<ProductModel>> getAll() async {
+  ResultFuture<List<ProductModel>> getAll({String? params}) async {
     try {
-      final res = await auctionDataSource.getAll();
+      final res = await auctionDataSource.getAll(params: params);
       return Right(res);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));

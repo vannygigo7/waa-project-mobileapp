@@ -29,7 +29,7 @@ class _HomeAuctionListState extends State<HomeAuctionList> {
     return BlocConsumer<AuctionCubit, AuctionState>(
       listener: (context, state) {
         if (state is AuctionError) {
-          AppUtil.showSnackBar(state.errorMessage, context);
+          AppUtil.showSnackBar(context, state.errorMessage);
         }
       },
       builder: (context, state) {

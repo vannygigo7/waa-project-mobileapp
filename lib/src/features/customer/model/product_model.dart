@@ -1,6 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import 'package:auction_app/src/features/customer/model/auction_model.dart';
 import 'package:auction_app/src/features/customer/model/category_model.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'product_model.g.dart';
 
@@ -26,4 +27,9 @@ class ProductModel {
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);
   Map<String, dynamic> toJson() => _$ProductModelToJson(this);
+
+  @override
+  String toString() {
+    return 'ProductModel(id: $id, title: $title, description: $description, imageUrl: $imageUrl, categories: $categories, released: $released, auction: $auction)';
+  }
 }

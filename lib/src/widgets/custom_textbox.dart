@@ -9,6 +9,9 @@ class CustomTextBox extends StatelessWidget {
       this.suffix,
       this.controller,
       this.readOnly = false,
+      this.onTap,
+      this.onSubmitted,
+      this.onChanged,
       this.keyboardType})
       : super(key: key);
 
@@ -18,6 +21,9 @@ class CustomTextBox extends StatelessWidget {
   final bool readOnly;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
+  final Function()? onTap;
+  final Function(String)? onSubmitted;
+  final Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +44,9 @@ class CustomTextBox extends StatelessWidget {
         ],
       ),
       child: TextField(
+        onTap: onTap,
+        onSubmitted: onSubmitted,
+        onChanged: onChanged,
         readOnly: readOnly,
         controller: controller,
         keyboardType: keyboardType,

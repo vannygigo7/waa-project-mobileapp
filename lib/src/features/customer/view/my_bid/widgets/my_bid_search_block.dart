@@ -1,8 +1,9 @@
-import 'package:auction_app/src/theme/app_color.dart';
+import 'dart:async';
+
+import 'package:auction_app/src/features/customer/cubit/my_bid/my_bid_cubit.dart';
 import 'package:auction_app/src/widgets/custom_textbox.dart';
-import 'package:auction_app/src/widgets/icon_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyBidSearchBlock extends StatefulWidget {
   const MyBidSearchBlock({super.key});
@@ -12,35 +13,30 @@ class MyBidSearchBlock extends StatefulWidget {
 }
 
 class _MyBidSearchBlockState extends State<MyBidSearchBlock> {
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-      child: Row(
-        children: [
-          const Expanded(
-            child: CustomTextBox(
-              hint: "Search",
-              prefix: Icon(Icons.search, color: Colors.grey),
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          IconBox(
-            bgColor: AppColor.primary,
-            radius: 10,
-            onTap: () {},
-            child: SvgPicture.asset(
-              "assets/icons/filter.svg",
-              colorFilter:
-                  const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-              width: 24,
-              height: 24,
-            ),
-          )
-        ],
+      child: CustomTextBox(
+        hint: "Search",
+        prefix: const Icon(Icons.search, color: Colors.grey),
+        onChanged: _onSearchChanged,
       ),
     );
+  }
+
+  _onSearchChanged(String text) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      BlocProvider.of<MyBidCubit>(context).getMyBidsByTitle(title: text);
+    });
   }
 }

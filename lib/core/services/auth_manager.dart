@@ -7,13 +7,9 @@ class AuthManager {
   static String? _token;
   static UserAccountModel? _user;
   static AuthManager? _instance;
-  final _streamController = StreamController<String?>.broadcast();
 
   static AuthManager get instance => _instance ??= AuthManager._();
   AuthManager._();
-
-  /// Getter for accessing the stored access token as stream
-  Stream<String?> get accessTokenStream => _streamController.stream;
 
   /// Getter for accessing the stored auth user
   Future<UserAccountModel?> get user async {
@@ -31,7 +27,6 @@ class AuthManager {
   Future<void> setAuthUser(UserAccountModel user) async {
     _user = user;
     _token = user.accessToken;
-    _streamController.add(_token);
     Map<String, String> stringMap =
         user.toJson().map((key, value) => MapEntry(key, value.toString()));
     await AppUtil.storeAll(stringMap);
@@ -41,38 +36,33 @@ class AuthManager {
   Future<void> clearAuthUser() async {
     _user = null;
     _token = null;
-    _streamController.add(null);
     await AppUtil.deleteAll();
   }
 
   /// Getter for accessing the stored access token
-  Future<String?> get accessToken async {
-    _token = _token ?? await AppUtil.read(_accessTokenKey);
-    return _token;
+  String? get accessToken => _token;
+
+  /// Setter for accessing the stored access token
+  set accessToken(String? token) {
+    _token = token;
+    AppUtil.store(key: _accessTokenKey, value: accessToken);
   }
 
   /// Setter for storing the access token
-  Future<void> setAccessToken(String accessToken) async {
-    _token = accessToken;
-    _streamController.add(_token);
-    await AppUtil.store(key: _accessTokenKey, value: accessToken);
+  Future<void> setAccessToken(String token) async {
+    _token = token;
+    await AppUtil.store(key: _accessTokenKey, value: token);
   }
 
   /// Method for checking if the user is authenticated (has an access token)
   Future<bool> isAuthenticated() async {
     _token = _token ?? await AppUtil.read(_accessTokenKey);
-    _streamController.add(_token);
     return _token != null;
   }
 
   /// Method for clearing the access token (user logout)
   Future<void> clearAccessToken() async {
     _token = null;
-    _streamController.add(_token);
     await AppUtil.delete(_accessTokenKey);
-  }
-
-  dispose() {
-    _streamController.close();
   }
 }

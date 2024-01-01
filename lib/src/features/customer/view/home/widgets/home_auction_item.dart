@@ -59,7 +59,9 @@ class HomeAuctionItem extends StatelessWidget {
   }
 
   Widget _buildFavoriteButton() {
-    return const FavoriteBox();
+    return FavoriteBox(
+      onTap: () {},
+    );
   }
 
   Widget _buildCourseInfo() {

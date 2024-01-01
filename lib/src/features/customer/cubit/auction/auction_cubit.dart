@@ -6,9 +6,9 @@ class AuctionCubit extends Cubit<AuctionState> {
   AuctionCubit({required this.auctionRepository}) : super(AuctionInitial());
   final AuctionRepository auctionRepository;
 
-  getAll() async {
+  getAll({String? params}) async {
     emit(AuctionLoading());
-    final result = await auctionRepository.getAll();
+    final result = await auctionRepository.getAll(params: params);
     result.fold(
       (l) => emit(AuctionError(errorMessage: l.errorMessage)),
       (r) => emit(AuctionLoaded(products: r)),

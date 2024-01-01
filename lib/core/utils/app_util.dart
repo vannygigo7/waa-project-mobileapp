@@ -22,7 +22,7 @@ class AppUtil {
   }
 
   /// shows snackbar with [message]
-  static void showSnackBar(String message, BuildContext context,
+  static void showSnackBar(BuildContext context, String message,
       {int duration = 2}) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()

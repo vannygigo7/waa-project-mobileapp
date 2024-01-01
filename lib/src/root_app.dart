@@ -40,13 +40,15 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
           activeIcon: "assets/icons/home.svg",
           page: const HomePage()),
       _BarItem(
-          icon: "assets/icons/search.svg",
-          activeIcon: "assets/icons/search.svg",
-          page: const SizedBox()),
-      _BarItem(
           icon: "assets/icons/time.svg",
           activeIcon: "assets/icons/time.svg",
           page: const MyBidPage()),
+      _BarItem(
+          icon: "assets/icons/bell.svg",
+          activeIcon: "assets/icons/bell.svg",
+          page: const Center(
+            child: Text("Notification"),
+          )),
       _BarItem(
           icon: "assets/icons/profile.svg",
           activeIcon: "assets/icons/profile.svg",
