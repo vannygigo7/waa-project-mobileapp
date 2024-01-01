@@ -2,7 +2,11 @@ import 'package:equatable/equatable.dart';
 
 import 'package:auction_app/src/features/auth/model/user_account_model.dart';
 
-enum AuthStatus { initial, loading, authenticated, unAuthenticated, error }
+enum AuthStatus {
+  unknown,
+  authenticated,
+  unAuthenticated,
+}
 
 class AuthState extends Equatable {
   final UserAccountModel? userAccount;
@@ -10,7 +14,7 @@ class AuthState extends Equatable {
   final String message;
 
   const AuthState(
-      {this.userAccount, this.status = AuthStatus.initial, this.message = ''});
+      {this.userAccount, this.status = AuthStatus.unknown, this.message = ''});
 
   @override
   List<Object?> get props => [userAccount, status, message];

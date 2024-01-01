@@ -9,7 +9,7 @@ class UserModel {
   final String role;
   final String firstName;
   final String lastName;
-  final String profileImageUrl;
+  String? profileImageUrl;
 
   UserModel({
     required this.id,
@@ -17,7 +17,7 @@ class UserModel {
     required this.role,
     required this.firstName,
     required this.lastName,
-    required this.profileImageUrl,
+    this.profileImageUrl,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

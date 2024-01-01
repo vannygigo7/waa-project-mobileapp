@@ -1,11 +1,5 @@
-import 'package:auction_app/core/network/network_api.dart';
-import 'package:auction_app/core/utils/app_navigate.dart';
-import 'package:auction_app/core/utils/app_util.dart';
-import 'package:auction_app/src/features/auth/cubit/auth_cubit.dart';
-import 'package:auction_app/src/features/auth/cubit/auth_state.dart';
-import 'package:auction_app/src/features/auth/data/datasource/remote/auth_remote_datasource.dart';
-import 'package:auction_app/src/features/auth/data/repository/impl/auth_repository_impl.dart';
-import 'package:auction_app/src/features/auth/model/login_request_model.dart';
+import 'package:auction_app/src/features/auth/cubit/login_cubit.dart';
+import 'package:auction_app/src/features/auth/cubit/login_state.dart';
 import 'package:auction_app/src/features/auth/view/login/widgets/login_button.dart';
 import 'package:auction_app/src/features/auth/view/login/widgets/login_logo.dart';
 import 'package:auction_app/src/features/auth/view/login/widgets/login_navigate_register.dart';
@@ -66,9 +60,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _buildBody() {
-    return BlocListener<AuthCubit, AuthState>(
+    return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
-        if (state.status == AuthStatus.error) {
+        if (state.status == LoginStatus.failure) {
           _buttonController.reset();
           if (mounted) {
             showDialog(
@@ -140,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildLoginButton() {
     return LoginButton(
       onPressed: () async {
-        BlocProvider.of<AuthCubit>(context)
+        BlocProvider.of<LoginCubit>(context)
             .login(_emailController.text, _passwordController.text);
       },
       buttonController: _buttonController,
@@ -191,45 +185,4 @@ class _LoginPageState extends State<LoginPage> {
       hintText: "Password",
     );
   }
-
-  // _testLogin() {
-  //   final authRepository = AuthRepositoryImpl(
-  //       authDataSource:
-  //           AuthRemoteDataSource(networkAPI: NetworkAPI(endpoint: '')));
-  //   authRepository
-  //       .login(LoginRequestModel(
-  //           email: _emailController.text, password: _passwordController.text))
-  //       .then((value) {
-  //     _buttonController.reset();
-  //     value.fold(
-  //       (l) {
-  //         if (mounted) {
-  //           showDialog(
-  //             context: context,
-  //             builder: (BuildContext context) {
-  //               return CustomDialogBox(
-  //                 title: "Login",
-  //                 descriptions: l.message,
-  //               );
-  //             },
-  //           );
-  //         }
-  //       },
-  //       (r) => AppNavigator.toAndReplace(context, const RootApp()),
-  //     );
-  //   }, onError: (error) {
-  //     _buttonController.reset();
-  //     if (mounted) {
-  //       showDialog(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return CustomDialogBox(
-  //             title: "Login",
-  //             descriptions: error.message,
-  //           );
-  //         },
-  //       );
-  //     }
-  //   });
-  // }
 }

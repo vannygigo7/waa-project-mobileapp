@@ -21,3 +21,8 @@ class UserAccountModel extends UserModel {
   @override
   Map<String, dynamic> toJson() => _$UserAccountModelToJson(this);
 }
+
+class UserRole {
+  static const seller = 'SELLER';
+  static const customer = 'USER';
+}

@@ -3,6 +3,7 @@ import 'package:auction_app/src/widgets/custom_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
@@ -108,5 +109,34 @@ class AppUtil {
       gravity: ToastGravity.BOTTOM,
       toastDuration: Duration(seconds: duration),
     );
+  }
+
+  static Future<void> store(
+      {required String key, required dynamic value}) async {
+    await const FlutterSecureStorage().write(key: key, value: value);
+  }
+
+  static Future<void> storeAll(Map<String, String> map) async {
+    const store = FlutterSecureStorage();
+    for (MapEntry element in map.entries) {
+      store.write(key: element.key, value: element.value);
+    }
+  }
+
+  static Future<String?> read(String key) async {
+    return await const FlutterSecureStorage().read(key: key);
+  }
+
+  static Future<Map<String, String>> readAll() async {
+    const storage = FlutterSecureStorage();
+    return await storage.readAll();
+  }
+
+  static Future<void> deleteAll() async {
+    await const FlutterSecureStorage().deleteAll();
+  }
+
+  static Future<void> delete(String key) async {
+    await const FlutterSecureStorage().delete(key: key);
   }
 }

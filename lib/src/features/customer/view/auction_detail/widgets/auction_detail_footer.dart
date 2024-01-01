@@ -1,9 +1,6 @@
 import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/src/features/customer/cubit/add_bid/add_bit_cubit.dart';
 import 'package:auction_app/src/features/customer/cubit/add_bid/add_bit_state.dart';
-import 'package:auction_app/src/features/customer/data/datasource/remote/customer_remote_datasource.dart';
-import 'package:auction_app/src/features/customer/data/repository/customer_repository.dart';
-import 'package:auction_app/src/features/customer/data/repository/impl/customer_repository_impl.dart';
 import 'package:auction_app/src/features/customer/model/product_model.dart';
 import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_button.dart';
@@ -21,10 +18,6 @@ class AuctionDetailFooter extends StatefulWidget {
 
 class _AuctionDetailFooterState extends State<AuctionDetailFooter> {
   final _bidAmountController = TextEditingController();
-
-  final CustomerRepository customerRepository = CustomerRepositoryImpl(
-    customerDataSource: CustomerRemoteDataSource(),
-  );
 
   @override
   void initState() {

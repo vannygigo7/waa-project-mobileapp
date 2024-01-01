@@ -1,23 +1,20 @@
 import 'dart:convert';
 
 import 'package:auction_app/core/errors/exception.dart';
-import 'package:auction_app/core/network/dto/network_response_model.dart';
-import 'package:auction_app/core/network/network_api.dart';
-import 'package:auction_app/core/utils/app_util.dart';
-import 'package:auction_app/core/utils/endpoint_constant.dart';
+import 'package:auction_app/core/services/network/dto/network_response_model.dart';
+import 'package:auction_app/core/services/network/network_api.dart';
 import 'package:auction_app/src/features/customer/data/datasource/auction_datasource.dart';
 import 'package:auction_app/src/features/customer/data/mapper/auction_mapper.dart';
 import 'package:auction_app/src/features/customer/model/product_model.dart';
 
 class AuctionRemoteDataSource implements AuctionDataSource {
-  AuctionRemoteDataSource();
-  final networkAPI = NetworkAPI(endpoint: EndpointConstant.home);
+  AuctionRemoteDataSource({required this.networkService});
+  final NetworkService networkService;
 
   @override
   Future<List<ProductModel>> getAll() async {
     try {
-      AppUtil.debugPrint("AuctionRemoteDataSource: getAll");
-      final result = await networkAPI.getAll();
+      final result = await networkService.getAll();
       NetworkResponseModel responseModel =
           NetworkResponseModel.fromJson(jsonDecode(result.body));
       if (result.statusCode == 200) {
@@ -33,7 +30,7 @@ class AuctionRemoteDataSource implements AuctionDataSource {
   @override
   Future<ProductModel> getById(int productId) async {
     try {
-      final result = await networkAPI.getById(productId);
+      final result = await networkService.getById(productId);
       NetworkResponseModel responseModel =
           NetworkResponseModel.fromJson(jsonDecode(result.body));
       if (result.statusCode == 200) {

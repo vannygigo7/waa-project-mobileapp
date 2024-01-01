@@ -1,3 +1,4 @@
+import 'package:auction_app/core/utils/app_asset.dart';
 import 'package:auction_app/core/utils/app_constant.dart';
 import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/src/features/customer/model/bid_model.dart';
@@ -32,8 +33,10 @@ class AuctionDetailBidTile extends StatelessWidget {
         child: Row(
           children: [
             CustomImage(
-              bid.customer.profileImageUrl,
-              imageType: ImageType.network,
+              bid.customer.profileImageUrl ?? AppAsset.defaultProfile,
+              imageType: bid.customer.profileImageUrl != null
+                  ? ImageType.network
+                  : ImageType.asset,
               radius: 100,
               height: 45,
               width: 45,

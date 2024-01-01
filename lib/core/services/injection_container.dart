@@ -1,5 +1,8 @@
-import 'package:auction_app/core/network/network_api.dart';
+import 'package:auction_app/core/services/network/network_api.dart';
+import 'package:auction_app/core/utils/endpoint_constant.dart';
 import 'package:auction_app/src/features/auth/cubit/auth_cubit.dart';
+import 'package:auction_app/src/features/auth/cubit/login_cubit.dart';
+import 'package:auction_app/src/features/auth/cubit/register_cubit.dart';
 import 'package:auction_app/src/features/auth/data/datasource/auth_datasource.dart';
 import 'package:auction_app/src/features/auth/data/datasource/remote/auth_remote_datasource.dart';
 import 'package:auction_app/src/features/auth/data/repository/auth_repository.dart';
@@ -21,24 +24,30 @@ final locator = GetIt.instance;
 
 Future initLocator() async {
   locator
-    ..registerFactory(() => AuctionCubit(auctionRepository: locator()))
+    ..registerLazySingleton(() => AuctionCubit(auctionRepository: locator()))
     ..registerLazySingleton<AuctionRepository>(
         () => AuctionRepositoryImpl(auctionDataSource: locator()))
-    ..registerLazySingleton<AuctionDataSource>(() => AuctionRemoteDataSource());
+    ..registerLazySingleton<AuctionDataSource>(() => AuctionRemoteDataSource(
+        networkService: NetworkService(endpoint: EndpointConstant.home)));
 
   locator
-    ..registerFactory(() => MyBidCubit(customerRepository: locator()))
+    ..registerLazySingleton(() => MyBidCubit(customerRepository: locator()))
     ..registerLazySingleton<CustomerRepository>(
         () => CustomerRepositoryImpl(customerDataSource: locator()))
-    ..registerLazySingleton<CustomerDataSource>(
-        () => CustomerRemoteDataSource());
-
-  locator.registerFactory(() => AddBidCubit(customerRepository: locator()));
+    ..registerLazySingleton<CustomerDataSource>(() => CustomerRemoteDataSource(
+        networkService:
+            NetworkService(endpoint: EndpointConstant.customerProduct)));
 
   locator
-    ..registerFactory(() => AuthCubit(authRepository: locator()))
+      .registerLazySingleton(() => AddBidCubit(customerRepository: locator()));
+
+  locator
+    ..registerLazySingleton(() => AuthCubit(authRepository: locator()))
     ..registerLazySingleton<AuthRepository>(
         () => AuthRepositoryImpl(authDataSource: locator()))
-    ..registerLazySingleton<AuthDataSource>(
-        () => AuthRemoteDataSource(networkAPI: NetworkAPI(endpoint: '')));
+    ..registerLazySingleton<AuthDataSource>(() =>
+        AuthRemoteDataSource(networkService: NetworkService(endpoint: '')));
+
+  locator.registerLazySingleton(() => LoginCubit(authRepository: locator()));
+  locator.registerLazySingleton(() => RegisterCubit(authRepository: locator()));
 }

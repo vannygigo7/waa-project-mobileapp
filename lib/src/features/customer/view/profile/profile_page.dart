@@ -1,9 +1,8 @@
+import 'package:auction_app/core/services/auth_manager.dart';
 import 'package:auction_app/core/utils/app_constant.dart';
-import 'package:auction_app/core/utils/app_navigate.dart';
 import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/core/utils/dummy_data.dart';
 import 'package:auction_app/src/features/auth/cubit/auth_cubit.dart';
-import 'package:auction_app/src/features/auth/view/login/login_page.dart';
 import 'package:auction_app/src/features/customer/model/user_model.dart';
 import 'package:auction_app/src/features/customer/view/profile/widgets/settting_item.dart';
 import 'package:auction_app/src/theme/app_color.dart';
@@ -13,13 +12,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_avatar/random_avatar.dart';
 
+// ignore: must_be_immutable
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
 
-  final UserModel user = UserModel.fromJson(userData);
+  UserModel user = UserModel.fromJson(userData);
+
+  loadUser() async {
+    user = await AuthManager.instance.user ?? user;
+  }
 
   @override
   Widget build(BuildContext context) {
+    loadUser();
     return Scaffold(
       backgroundColor: AppColor.appBgColor,
       body: CustomScrollView(
@@ -62,18 +67,18 @@ class ProfilePage extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        const Text(
-          "User A",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+        Text(
+          "${user.firstName} ${user.lastName}",
+          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
         ),
         const SizedBox(
           height: 5,
         ),
-        const Text(
-          "a@test.com",
+        Text(
+          user.email,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             color: Colors.grey,
             fontWeight: FontWeight.w500,
@@ -94,7 +99,7 @@ class ProfilePage extends StatelessWidget {
             ? RandomAvatar(user.email,
                 trBackground: true, width: 70, height: 70)
             : CustomImage(
-                user.profileImageUrl,
+                user.profileImageUrl!,
                 imageType: ImageType.network,
                 width: 70,
                 height: 70,

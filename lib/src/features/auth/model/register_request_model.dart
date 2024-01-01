@@ -9,7 +9,7 @@ class RegisterRequestModel {
   String role;
   String firstName;
   String lastName;
-  String profileImageUrl;
+  String? profileImageUrl;
 
   RegisterRequestModel({
     required this.email,
@@ -17,7 +17,7 @@ class RegisterRequestModel {
     required this.role,
     required this.firstName,
     required this.lastName,
-    required this.profileImageUrl,
+    this.profileImageUrl,
   });
 
   factory RegisterRequestModel.fromJson(Map<String, dynamic> json) =>

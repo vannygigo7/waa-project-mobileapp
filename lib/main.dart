@@ -1,6 +1,8 @@
 import 'package:auction_app/core/services/injection_container.dart';
 import 'package:auction_app/src/features/auth/cubit/auth_cubit.dart';
 import 'package:auction_app/src/features/auth/cubit/auth_state.dart';
+import 'package:auction_app/src/features/auth/cubit/login_cubit.dart';
+import 'package:auction_app/src/features/auth/cubit/register_cubit.dart';
 import 'package:auction_app/src/features/auth/view/login/login_page.dart';
 import 'package:auction_app/src/features/customer/cubit/add_bid/add_bit_cubit.dart';
 import 'package:auction_app/src/features/customer/cubit/auction/auction_cubit.dart';
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => locator.get<MyBidCubit>()),
         BlocProvider(create: (_) => locator.get<AddBidCubit>()),
         BlocProvider(create: (_) => locator.get<AuthCubit>()),
+        BlocProvider(create: (_) => locator.get<LoginCubit>()),
+        BlocProvider(create: (_) => locator.get<RegisterCubit>()),
       ],
       child: MaterialApp(
         navigatorKey: _navigatorKey,
@@ -37,6 +41,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         builder: (context, child) {
+          BlocProvider.of<AuthCubit>(context).checkAuthState();
           return BlocListener<AuthCubit, AuthState>(
             listener: (context, state) {
               switch (state.status) {

@@ -1,15 +1,12 @@
-import 'package:auction_app/core/network/network_api.dart';
-import 'package:auction_app/core/utils/app_navigate.dart';
-import 'package:auction_app/src/features/auth/data/datasource/remote/auth_remote_datasource.dart';
-import 'package:auction_app/src/features/auth/data/repository/impl/auth_repository_impl.dart';
-import 'package:auction_app/src/features/auth/model/register_request_model.dart';
+import 'package:auction_app/src/features/auth/cubit/register_cubit.dart';
+import 'package:auction_app/src/features/auth/cubit/register_state.dart';
 import 'package:auction_app/src/features/auth/view/register/widgets/register_button.dart';
 import 'package:auction_app/src/features/auth/view/register/widgets/register_logo.dart';
 import 'package:auction_app/src/features/auth/view/register/widgets/register_navigate_login.dart';
-import 'package:auction_app/src/root_app.dart';
 import 'package:auction_app/src/widgets/custom_dialog.dart';
 import 'package:auction_app/src/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -20,21 +17,29 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _conPasswordController = TextEditingController();
-  final _buttonController = RoundedLoadingButtonController();
+  late final TextEditingController _firstNameController;
+  late final TextEditingController _lastNameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _conPasswordController;
+  late final RoundedLoadingButtonController _buttonController;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _conPasswordController = TextEditingController();
+    _buttonController = RoundedLoadingButtonController();
+    super.initState();
   }
 
   @override
   dispose() {
     super.dispose();
-    _nameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _conPasswordController.dispose();
@@ -53,81 +58,137 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   _buildBody() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Container(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            const RegisterLogo(),
-            const SizedBox(
-              height: 10,
-            ),
-            const Center(
-              child: Text(
-                "Register",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            _buildNameBlock(),
-            const Divider(
-              color: Colors.grey,
-              height: 10,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            _buildEmailBlock(),
-            const Divider(
-              color: Colors.grey,
-              height: 10,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            _buildPassowrdBlcok(),
-            const Divider(
-              color: Colors.grey,
-              height: 10,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            _buildConPassowrdBlock(),
-            const Divider(
-              color: Colors.grey,
-              height: 10,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            RegisterButton(
-              onPressed: () {
-                _testRegister();
+    return BlocListener<RegisterCubit, RegisterState>(
+      listener: (context, state) {
+        if (state.status == RegisterStatus.failure) {
+          _buttonController.reset();
+          if (mounted) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomDialogBox(
+                  title: "Register",
+                  descriptions: state.message,
+                );
               },
-              buttonController: _buttonController,
-            )
-          ],
+            );
+          }
+        } else if (state.status == RegisterStatus.success) {
+          if (mounted) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomDialogBox(
+                  title: "Register",
+                  descriptions: state.message,
+                );
+              },
+            );
+          }
+        }
+      },
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const RegisterLogo(),
+              const SizedBox(
+                height: 10,
+              ),
+              const Center(
+                child: Text(
+                  "Register",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+                ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              _buildFirstNameBlock(),
+              const Divider(
+                color: Colors.grey,
+                height: 10,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              _buildLastNameBlock(),
+              const Divider(
+                color: Colors.grey,
+                height: 10,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              _buildEmailBlock(),
+              const Divider(
+                color: Colors.grey,
+                height: 10,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              _buildPassowrdBlcok(),
+              const Divider(
+                color: Colors.grey,
+                height: 10,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              _buildConPassowrdBlock(),
+              const Divider(
+                color: Colors.grey,
+                height: 10,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              RegisterButton(
+                onPressed: _onRegister,
+                buttonController: _buttonController,
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildNameBlock() {
+  _onRegister() async {
+    BlocProvider.of<RegisterCubit>(context).register(
+        _firstNameController.text.trim(),
+        _lastNameController.text.trim(),
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+        _conPasswordController.text.trim());
+  }
+
+  Widget _buildFirstNameBlock() {
     return CustomTextField(
-      controller: _nameController,
+      controller: _firstNameController,
       leadingIcon: const Icon(
         Icons.person_outline,
         color: Colors.grey,
       ),
-      hintText: "Name",
+      hintText: "First name*",
+    );
+  }
+
+  Widget _buildLastNameBlock() {
+    return CustomTextField(
+      controller: _lastNameController,
+      leadingIcon: const Icon(
+        Icons.person_outline,
+        color: Colors.grey,
+      ),
+      hintText: "Last name*",
     );
   }
 
@@ -139,7 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
         Icons.email_outlined,
         color: Colors.grey,
       ),
-      hintText: "Email",
+      hintText: "Email*",
     );
   }
 
@@ -155,7 +216,7 @@ class _RegisterPageState extends State<RegisterPage> {
         onTap: () {},
         child: const Icon(Icons.visibility_off_outlined, color: Colors.grey),
       ),
-      hintText: "Confirm password",
+      hintText: "Confirm password*",
     );
   }
 
@@ -171,53 +232,7 @@ class _RegisterPageState extends State<RegisterPage> {
         onTap: () {},
         child: const Icon(Icons.visibility_off_outlined, color: Colors.grey),
       ),
-      hintText: "Password",
+      hintText: "Password*",
     );
-  }
-
-  _testRegister() {
-    final authRepository = AuthRepositoryImpl(
-        authDataSource:
-            AuthRemoteDataSource(networkAPI: NetworkAPI(endpoint: '')));
-    authRepository
-        .register(RegisterRequestModel(
-            email: _emailController.text,
-            password: _passwordController.text,
-            role: "USER",
-            firstName: _nameController.text,
-            lastName: _nameController.text,
-            profileImageUrl: ''))
-        .then((value) {
-      _buttonController.reset();
-      value.fold(
-        (l) {
-          if (mounted) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return CustomDialogBox(
-                  title: "Register",
-                  descriptions: l.message,
-                );
-              },
-            );
-          }
-        },
-        (r) => AppNavigator.toAndReplace(context, const RootApp()),
-      );
-    }, onError: (error) {
-      _buttonController.reset();
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CustomDialogBox(
-              title: "Register",
-              descriptions: error.message,
-            );
-          },
-        );
-      }
-    });
   }
 }
