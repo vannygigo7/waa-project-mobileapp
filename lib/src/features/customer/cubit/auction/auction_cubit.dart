@@ -10,14 +10,17 @@ class AuctionCubit extends Cubit<AuctionState> {
     emit(AuctionLoading());
     final result = await auctionRepository.getAll(params: params);
     result.fold(
-      (l) => emit(AuctionError(errorMessage: l.errorMessage)),
-      (r) => emit(AuctionLoaded(products: r)),
+      (failure) => emit(AuctionError(message: failure.errorMessage)),
+      (data) => emit(AuctionLoaded(products: data)),
     );
   }
 
   getById(int productId) async {
     emit(AuctionLoading());
     final result = await auctionRepository.getById(productId);
-    result.fold((l) => null, (r) => emit(AuctionDetail(product: r)));
+    result.fold(
+      (failure) => null,
+      (data) => emit(AuctionDetail(product: data)),
+    );
   }
 }

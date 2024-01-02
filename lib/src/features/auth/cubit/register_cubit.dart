@@ -9,14 +9,19 @@ class RegisterCubit extends Cubit<RegisterState> {
       : super(const RegisterState(status: RegisterStatus.initial));
   final AuthRepository authRepository;
 
-  void register(String firstName, String lastName, String email,
+  Future<void> register(String firstName, String lastName, String email,
       String password, String conPassword,
       {String role = UserRole.customer}) async {
-    emit(state.copyWith(status: RegisterStatus.loading));
-    if (!_validateFields([firstName, lastName, email, password])) {
+    emit(state.copyWith(status: RegisterStatus.loading, message: ''));
+    if (!_validateFields([firstName, lastName, email, password, conPassword])) {
       emit(state.copyWith(
           status: RegisterStatus.failure,
           message: 'Please fill all required fields*'));
+      return;
+    } else if (!_validateMatchPasswords(password, conPassword)) {
+      emit(state.copyWith(
+          status: RegisterStatus.failure,
+          message: 'Password and Confirm password don\'t match'));
       return;
     }
     final result = await authRepository.register(RegisterRequestModel(
@@ -40,6 +45,12 @@ class RegisterCubit extends Cubit<RegisterState> {
     for (var field in fields) {
       if (field.isEmpty) return false;
     }
+    return true;
+  }
+
+  bool _validateMatchPasswords(String password, String conPassword) {
+    if (password.trim() != conPassword.trim()) return false;
+
     return true;
   }
 }

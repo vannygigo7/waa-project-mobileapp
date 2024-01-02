@@ -1,17 +1,18 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'register_request_model.g.dart';
 
 @JsonSerializable()
-class RegisterRequestModel {
-  String email;
-  String password;
-  String role;
-  String firstName;
-  String lastName;
-  String? profileImageUrl;
+class RegisterRequestModel extends Equatable {
+  final String email;
+  final String password;
+  final String role;
+  final String firstName;
+  final String lastName;
+  final String? profileImageUrl;
 
-  RegisterRequestModel({
+  const RegisterRequestModel({
     required this.email,
     required this.password,
     required this.role,
@@ -24,4 +25,8 @@ class RegisterRequestModel {
       _$RegisterRequestModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$RegisterRequestModelToJson(this);
+
+  @override
+  List<Object?> get props =>
+      [email, password, role, firstName, lastName, profileImageUrl];
 }

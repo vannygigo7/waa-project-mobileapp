@@ -22,7 +22,7 @@ class AuthCubit extends Cubit<AuthState> {
     return super.close();
   }
 
-  void checkAuthState() async {
+  Future<void> checkAuthState() async {
     final authed = await AuthManager.instance.isAuthenticated();
     AppUtil.debugPrint("checkAuthState: $authed");
     if (authed) {
@@ -34,7 +34,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void logOut() async {
+  Future<void> logOut() async {
     AuthManager.instance.clearAuthUser();
     await authRepository.logOut();
   }

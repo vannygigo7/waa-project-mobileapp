@@ -1,14 +1,17 @@
 import 'package:auction_app/src/features/customer/model/product_model.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class AuctionState extends Equatable {
+abstract class AuctionState extends Equatable {}
+
+class AuctionInitial extends AuctionState {
   @override
   List<Object> get props => [];
 }
 
-class AuctionInitial extends AuctionState {}
-
-class AuctionLoading extends AuctionState {}
+class AuctionLoading extends AuctionState {
+  @override
+  List<Object> get props => [];
+}
 
 class AuctionLoaded extends AuctionState {
   final List<ProductModel> products;
@@ -19,12 +22,12 @@ class AuctionLoaded extends AuctionState {
 }
 
 class AuctionError extends AuctionState {
-  AuctionError({required this.errorMessage});
+  AuctionError({required this.message});
 
-  final String errorMessage;
+  final String message;
 
   @override
-  List<Object> get props => [errorMessage];
+  List<Object> get props => [message];
 }
 
 class AuctionDetail extends AuctionState {

@@ -44,13 +44,13 @@ void main() {
       'getAll: emit loading and failure',
       setUp: () {
         when(() => auctionRepository.getAll()).thenAnswer((_) => Future.value(
-            const Left(ServerFailure(message: '', statusCode: 0))));
+            const Left(ServerFailure(message: 'failed', statusCode: 0))));
       },
       build: () => AuctionCubit(auctionRepository: auctionRepository),
       act: (bloc) async {
         await bloc.getAll();
       },
-      expect: () => [AuctionLoading(), AuctionError(errorMessage: '')],
+      expect: () => [AuctionLoading(), AuctionError(message: 'failed')],
     );
 
     blocTest<AuctionCubit, AuctionState>(
