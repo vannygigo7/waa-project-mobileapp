@@ -1,10 +1,10 @@
+import 'package:auction_app/core/styles/app_color.dart';
 import 'package:auction_app/src/features/auth/cubit/login_cubit.dart';
 import 'package:auction_app/src/features/auth/cubit/login_state.dart';
 import 'package:auction_app/src/features/auth/view/login/widgets/login_button.dart';
 import 'package:auction_app/src/features/auth/view/login/widgets/login_logo.dart';
 import 'package:auction_app/src/features/auth/view/login/widgets/login_navigate_register.dart';
 
-import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_dialog.dart';
 import 'package:auction_app/src/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';

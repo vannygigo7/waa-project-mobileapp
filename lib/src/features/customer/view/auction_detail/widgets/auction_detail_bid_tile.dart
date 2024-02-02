@@ -1,8 +1,8 @@
+import 'package:auction_app/core/styles/app_color.dart';
 import 'package:auction_app/core/utils/app_asset.dart';
 import 'package:auction_app/core/utils/app_constant.dart';
 import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/src/features/customer/model/bid_model.dart';
-import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_image.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,5 @@
+import 'package:auction_app/core/styles/app_color.dart';
 import 'package:auction_app/core/utils/app_navigate.dart';
-import 'package:auction_app/src/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
 class RegisterNavigateLogin extends StatelessWidget {

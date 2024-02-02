@@ -1,10 +1,10 @@
+import 'package:auction_app/core/styles/app_color.dart';
 import 'package:auction_app/src/features/customer/view/home/home_page.dart';
 import 'package:auction_app/src/features/customer/view/my_bid/my_bid_page.dart';
 import 'package:auction_app/src/features/customer/view/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auction_app/core/utils/app_constant.dart';
-import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/bottombar_item.dart';
 
 class RootApp extends StatefulWidget {

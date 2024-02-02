@@ -14,8 +14,8 @@ class AppColor {
   static const shadowColor = Colors.black87;
   static const textBoxColor = Colors.white;
   static const textColor = Color(0xFF333333);
-  static const glassTextColor = Colors.white;
   static const labelColor = Color(0xFF8A8989);
+  static const glassTextColor = Colors.white;
   static const glassLabelColor = Colors.white;
   static const actionColor = Color(0xFFe54140);
 

@@ -1,4 +1,4 @@
-import 'package:auction_app/src/theme/app_color.dart';
+import 'package:auction_app/core/styles/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

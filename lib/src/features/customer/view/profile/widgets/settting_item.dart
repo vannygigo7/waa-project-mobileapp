@@ -1,4 +1,4 @@
-import 'package:auction_app/src/theme/app_color.dart';
+import 'package:auction_app/core/styles/app_color.dart';
 import 'package:flutter/material.dart';
 
 class SettingItem extends StatelessWidget {
@@ -24,8 +24,8 @@ class SettingItem extends StatelessWidget {
         padding:
             const EdgeInsets.only(left: 20, right: 15, top: 10, bottom: 10),
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+          borderRadius:
+              const BorderRadius.horizontal(right: Radius.circular(15)),
           color: Theme.of(context).cardColor,
           boxShadow: [
             BoxShadow(
@@ -36,52 +36,56 @@ class SettingItem extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: leadingIcon != null
-              ? [
-                  Container(
-                    padding: const EdgeInsets.all(7),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColor.shadowColor.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      leadingIcon,
-                      size: 24,
-                      color: leadingIconColor,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  if (trailing != null) trailing!
-                ]
-              : [
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  if (trailing != null) trailing!
-                ],
-        ),
+        child: _buildItem(context),
       ),
+    );
+  }
+
+  Widget _buildItem(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: leadingIcon != null
+          ? [
+              Container(
+                padding: const EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColor.shadowColor.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  leadingIcon,
+                  size: 24,
+                  color: leadingIconColor,
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+              if (trailing != null) trailing!
+            ]
+          : [
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+              if (trailing != null) trailing!
+            ],
     );
   }
 }

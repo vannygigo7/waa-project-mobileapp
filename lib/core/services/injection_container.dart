@@ -1,4 +1,4 @@
-import 'package:auction_app/core/services/network/network_api.dart';
+import 'package:auction_app/core/services/network/network_service.dart';
 import 'package:auction_app/core/utils/endpoint_constant.dart';
 import 'package:auction_app/src/features/auth/cubit/auth_cubit.dart';
 import 'package:auction_app/src/features/auth/cubit/login_cubit.dart';

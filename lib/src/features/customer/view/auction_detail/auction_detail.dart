@@ -1,3 +1,4 @@
+import 'package:auction_app/core/styles/app_color.dart';
 import 'package:auction_app/core/utils/app_constant.dart';
 import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/src/features/customer/cubit/add_bid/add_bit_cubit.dart';
@@ -7,7 +8,6 @@ import 'package:auction_app/src/features/customer/view/auction_detail/widgets/au
 import 'package:auction_app/src/features/customer/view/auction_detail/widgets/auction_detail_bid_list.dart';
 import 'package:auction_app/src/features/customer/view/auction_detail/widgets/auction_detail_footer.dart';
 import 'package:auction_app/src/features/customer/view/auction_detail/widgets/auction_detail_image.dart';
-import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_appbar.dart';
 import 'package:auction_app/src/widgets/custom_toast.dart';
 import 'package:auction_app/src/widgets/favorite_box.dart';

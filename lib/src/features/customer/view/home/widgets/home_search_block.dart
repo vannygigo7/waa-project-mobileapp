@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:auction_app/core/styles/app_color.dart';
 import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/src/features/customer/cubit/auction/auction_cubit.dart';
-import 'package:auction_app/src/theme/app_color.dart';
 import 'package:auction_app/src/widgets/custom_textbox.dart';
 import 'package:auction_app/src/widgets/icon_box.dart';
 import 'package:flutter/material.dart';

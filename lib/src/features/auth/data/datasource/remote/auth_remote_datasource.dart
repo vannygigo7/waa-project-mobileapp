@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:auction_app/core/errors/exception.dart';
 import 'package:auction_app/core/services/network/dto/network_response_model.dart';
-import 'package:auction_app/core/services/network/network_api.dart';
+import 'package:auction_app/core/services/network/network_service.dart';
 import 'package:auction_app/core/utils/app_util.dart';
 import 'package:auction_app/core/utils/endpoint_constant.dart';
 import 'package:auction_app/src/features/auth/data/datasource/auth_datasource.dart';

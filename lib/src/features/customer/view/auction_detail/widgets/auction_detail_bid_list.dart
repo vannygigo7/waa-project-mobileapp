@@ -1,6 +1,6 @@
+import 'package:auction_app/core/styles/app_color.dart';
 import 'package:auction_app/src/features/customer/model/bid_model.dart';
 import 'package:auction_app/src/features/customer/view/auction_detail/widgets/auction_detail_bid_tile.dart';
-import 'package:auction_app/src/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
 class AuctionDetailBidList extends StatelessWidget {

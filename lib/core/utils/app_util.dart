@@ -1,4 +1,4 @@
-import 'package:auction_app/src/theme/app_color.dart';
+import 'package:auction_app/core/styles/app_color.dart';
 import 'package:auction_app/src/widgets/custom_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
